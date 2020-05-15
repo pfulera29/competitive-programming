@@ -3,6 +3,7 @@
 // works up to 10^18
 // probably fails on 5003^5 which is ~10^{18.5}
 // auto v = NT::factorize(n)
+// returns vector of prime factors
  
 namespace NT{
     template<typename T>
