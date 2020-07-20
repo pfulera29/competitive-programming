@@ -5,7 +5,7 @@
 
 void base_p(int n, int p, vector <int> &v) {                                
   while(n) {
-    v.pb(n%p);
+    v.push_back(n%p);
     n /= p;
   }
 }
@@ -13,7 +13,7 @@ void base_p(int n, int p, vector <int> &v) {
 int lucas(int n, int r, int p){                                              
   vector <int> N, R;
   base_p(n, p, N); base_p(r, p, R);
-  if(sz(R) > sz(N)) 
+  if(R.size() > N.size()) 
     return 0LL;
   
   int size = sz(N), ans = 1;
