@@ -1,5 +1,5 @@
-/* i m glad to write a note here that this technique is discovered by me in my opinion
-   because i haev never seen someone using this technique to find bridges concepts may be same but the technique is different */
+/* i m glad to write a note here that this technique is discovered by me in my knowledge
+   because i have never seen someone using this technique to find bridges, concepts may be same but the technique is different */
 
 const int N = 1e5 + 5;
 
