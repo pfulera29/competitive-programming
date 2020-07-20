@@ -19,7 +19,7 @@ int lucas(int n, int r, int p){
   int size = sz(N), ans = 1;
   for(int i = 0; i < size; i++) {
     if(R[i] > N[i]) return 0LL;
-    ans = mul(ans, C(N[i], R[i]));
+    ans = mul(ans, C(N[i], R[i]));          // C is nCr function
   }
   return ans;
 }
