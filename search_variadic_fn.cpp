@@ -4,11 +4,13 @@ using namespace std;
 struct funDef{
     string fnName;
     bool isVariadic;
-    funDef(string name, bool variadic) {
-        fnName = name
-        isVariadic = variadic
+    vector<string> args;
+    funDef(string name, bool variadic, vector<string> a) {
+        fnName = name;
+        isVariadic = variadic;
+        args = a;
     }
-}
+};
 
 struct vertex {
     int next[26];
@@ -18,40 +20,40 @@ struct vertex {
             next[i] = -1;
         }
     }
-}
+};
 
 vector <vertex> Trie(1);
 
-void addStr(string s, string fn, bool variadic) {
-    v = 0;
-    for(char c : s) {
-        int nxt = c-'a';
-        if(Trie[v][nxt] == -1) {
-            Trie[v][nxt] = (int)Trie.size();
-            Trie.push_back(vertex())
-        } else {
-            v = Trie[v][nxt]
-        }
-    }
-    Trie[v].push_back(make_pair(fn, variadic))
+void addStr(string s, funDef fn) {
+  int v = 0;
+  for(char c : s) {
+      int nxt = c-'a';
+      if(Trie[v].next[nxt] == -1) {
+          Trie[v].next[nxt] = (int)Trie.size();
+          Trie.push_back(vertex());
+      } 
+      v = Trie[v].next[nxt];
+  }
+  Trie[v].fn.push_back(fn);
 }
 
 pair <int, vector <funDef> > dfs(int v, string s, int pos) {
-    if(position == (int)s.size()) {
-        return make_pair(v, Trie[v].fn)
+    if(pos == (int)s.size()) {
+      return make_pair(v, Trie[v].fn);
     }
-    int nxt = s[pos]='a';
-    if(Trie[v][nxt] != -1) {
-        return dfs(Trie[v][nxt], s, pos+1);
+    int nxt = s[pos]-'a';
+    if(Trie[v].next[nxt] != -1) {
+      return dfs(Trie[v].next[nxt], s, pos+1);
     } else {
-        return make_pair(-1, {});
+      vector <funDef> temp;
+      return make_pair(-1, temp);
     }
 }
 
-vector <funDef> getFunctions(vector <string> v) {
+vector <string> getFunctions(vector <string> v) {
     int trieInd = 0;
     int lastSameCount = 1;
-    vector <funDef> result;
+    vector <string> result;
     
     while((int)v.size() > 1) {
         int n = (int)v.size();
@@ -63,6 +65,7 @@ vector <funDef> getFunctions(vector <string> v) {
         }
     }
     for(int i = 0; i < (int)v.size()-1; i++) {
+        auto s = v[i];
         auto p = dfs(trieInd, s, 0);
         trieInd = p.first;
         if (trieInd == -1) {
@@ -70,7 +73,9 @@ vector <funDef> getFunctions(vector <string> v) {
         }
     }
     string last = v.back();
-    while(lastSameCount--) {
+    while(lastSameCount > 1) {
+        lastSameCount -= 1;
+        auto s = v.back();
         auto p = dfs(trieInd, s, 0);
         trieInd = p.first;
         if(trieInd == -1) {
@@ -82,6 +87,7 @@ vector <funDef> getFunctions(vector <string> v) {
             }
         }
     }
+    auto s = v.back();
     auto p = dfs(trieInd, s, 0);
     trieInd = p.first;
     if(trieInd == -1) {
@@ -90,9 +96,53 @@ vector <funDef> getFunctions(vector <string> v) {
     for (auto v: p.second) {
         result.push_back(v.fnName);
     }
+    return result;
+}
+
+void add_str_2(funDef fn) {
+  string s = "";
+  for (auto i : fn.args) {
+      s += i;
+  }
+  addStr(s, fn);
+}
+
+void findMatches(vector <string> v) {
+    auto s = getFunctions(v);
+    for(auto i : s) {
+        cout << i << " ";
+    }
+    cout << endl;
 }
 
 int main() {
+  funDef A("A", false, {"string", "integer", "integer"});
+  funDef B("B", true, {"string", "integer"});
+  funDef C("C", true, {"integer"});
+  funDef D("D", true, {"integer", "integer"});
+  funDef E("E", false, {"integer", "integer", "integer"});
+  funDef F("F", false, {"string"});
+  funDef G("G", false, {"integer"});
+  add_str_2(A);
+  add_str_2(B);
+  add_str_2(C);
+  add_str_2(D);
+  add_str_2(E);
+  add_str_2(F);
+  add_str_2(G);
+  vector <string> v = {"string"};
+  findMatches(v);
+
+  v = {"integer"};
+  findMatches(v);
+  v = {"integer", "integer", "integer", "integer"};
+  findMatches(v);
+  v = {"integer", "integer", "integer"};
+  findMatches(v);
+  v = {"string", "integer", "integer", "integer"};
+  findMatches(v);
+  v = {"string", "integer", "integer"};
+  findMatches(v);
 }
 
 
