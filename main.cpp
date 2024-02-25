@@ -2,10 +2,11 @@
 using namespace std;
 
 void solve() {
-    cout << "done\n";
+
 }
 
 signed main() {
+    freopen("input.txt", "r", stdin);
     int t = 1;
     // cin >> t;
     while(t--) {
