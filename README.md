@@ -1,3 +1,3 @@
-# competitive-programming 4
+# competitive-programming 
 
-6
+CP templates and libraries.
